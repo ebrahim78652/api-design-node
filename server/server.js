@@ -14,7 +14,8 @@ app.use(express.static("client"));
 
 // body parser makes it possible to post JSON to the server
 // we can accss data we post on as req.body
-
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 var lions = [];
 var id = 0;
 
