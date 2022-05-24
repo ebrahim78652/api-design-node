@@ -14,7 +14,6 @@ app.use(express.static("client"));
 
 // body parser makes it possible to post JSON to the server
 // we can accss data we post on as req.body
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 var lions = [];
 var id = 0;
@@ -56,8 +55,18 @@ app.put("/lions/:id", (req, res) => {
   let lionIndex = lions.findIndex((lion) => lion.id === +req.params.id);
   console.log(`The index of the lion is : ${lionIndex}`);
   console.log(req.body);
+  let newLion = Object.assign(lions[lionIndex], req.body);
+  lions[lionIndex] = newLion;
+  res.status(200).json(newLion);
 });
 
-app.delete("/lions/:id", (req, res) => {});
+app.delete("/lions/:id", (req, res) => {
+  let lionIndex = lions.findIndex((lion) => lion.id === +req.params.id);
+  console.log(`The index of the lion is : ${lionIndex}`);
+  let lionDeleted = lions[lionIndex];
+  lions.splice(lionIndex, 1);
+  res.status(200).json(lionDeleted);
+});
+
 app.listen(3000);
 console.log("on port 3000");
